@@ -1,6 +1,7 @@
 /**
  * ChatClientLib.java
  * 
+ * A library of useful methods which are used to support the chatroom client driver program.
  * 
  * @author Michael White (WHTMIC023)
  * @version 04/03/2018

@@ -1,4 +1,11 @@
-
+/**
+ * MessageReceiver.java
+ * 
+ * A runnable class which listens for incoming messages from the server.
+ * 
+ * @author Michael White (WHTMIC023)
+ * @version 04/03/2018
+ */
 
 package chatclient;
 

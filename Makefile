@@ -1,3 +1,7 @@
+# Makefile for basic-java-chatroom
+# by Michael White
+# 04/03/2018
+
 JAVAC=javac
 BIN=./bin
 SRC=./src
@@ -15,7 +19,7 @@ client:
 	$(JAVAC) $(OPTIONS) $(SRC)/chatclient/*.java
 
 clean:
-	rm -f $(BIN)/*.class
+	rm -r -f $(BIN)/*
 
 runServer: all
 	java $(RUN_OPTIONS) chatserver.ChatServer

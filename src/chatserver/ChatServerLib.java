@@ -1,7 +1,7 @@
 /**
  * ChatServerLib.java
  * 
- * 
+ * Library of useful methods which provide the core functionality for the chatroom server program.
  * 
  * @author Michael White (WHTMIC023)
  * @version 04/05/2018

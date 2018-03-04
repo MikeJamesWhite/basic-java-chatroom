@@ -1,7 +1,7 @@
 /**
  * ChatServerClient.java
  * 
- * 
+ * Class to store the data field associated with an individual client who is connected to the server.
  * 
  * @author Michael White (WHTMIC023)
  * @version 04/03/2018

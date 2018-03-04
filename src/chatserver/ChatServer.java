@@ -1,7 +1,7 @@
 /**
  * ChatServer.java
  *
- * A server program for hosting a chat server.
+ * Driver program for hosting a chat server on a specified port.
  *
  * @author Michael White (WHTMIC023)
  * @version 04/03/2018

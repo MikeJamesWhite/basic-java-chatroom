@@ -1,7 +1,7 @@
 /**
  * ChatClient.java
  *
- * A client program for connecting to a chat server.
+ * A client program for connecting to a chatroom server and allowing communication with other clients of the chatroom.
  *
  * @author Michael White (WHTMIC023)
  * @version 04/03/2018
@@ -39,6 +39,7 @@ public class ChatClient {
                 return;
             }
         }
+        System.out.println("Connected!");
         try {
             new Thread(new MessageReceiver(new DataInputStream(socket.getInputStream()))).start();
             ChatClientLib.sendMessages(scanIn, new DataOutputStream(socket.getOutputStream()));

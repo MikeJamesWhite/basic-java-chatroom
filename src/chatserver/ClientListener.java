@@ -1,4 +1,11 @@
-
+/**
+ * ClientListener.java
+ * 
+ * Runnable class for monitoring incoming messages from existing clients.
+ * 
+ * @author Michael White (WHTMIC023)
+ * @version 04/03/2018
+ */
 
 package chatserver;
 
