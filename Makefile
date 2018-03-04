@@ -4,19 +4,21 @@ SRC=./src
 OPTIONS = -cp $(BIN) -d $(BIN) -sourcepath $(SRC)
 RUN_OPTIONS= -cp $(BIN)
 
-.PHONY: all clean
+.PHONY: clean all
 
-all:
-	$(JAVAC) $(OPTIONS) $(SRC)/*.java
+all: server client
 
-%.class : %.java
-	$(JAVAC) $(OPTIONS) $(SRC)/ $<
+server:
+	$(JAVAC) $(OPTIONS) $(SRC)/chatserver/*.java
+
+client:
+	$(JAVAC) $(OPTIONS) $(SRC)/chatclient/*.java
 
 clean:
 	rm -f $(BIN)/*.class
 
 runServer: all
-	java $(RUN_OPTIONS) ChatServer
+	java $(RUN_OPTIONS) chatserver.ChatServer
 
 runClient: all
-	java $(RUN_OPTIONS) ChatClient
+	java $(RUN_OPTIONS) chatclient.ChatClient
