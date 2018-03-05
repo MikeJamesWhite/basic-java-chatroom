@@ -10,11 +10,13 @@
 package chatclient;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.net.*;
 import java.io.*;
 
 public class ChatClient {
     static Scanner scanIn = new Scanner(System.in);
+    static AtomicBoolean running = new AtomicBoolean(true);
     static final int DEFAULT_PORT = 50048;
     static final String DEFAULT_HOST = "kingkong.zapto.org";
 
@@ -41,8 +43,10 @@ public class ChatClient {
         }
         System.out.println("Connected!");
         try {
-            new Thread(new MessageReceiver(new DataInputStream(socket.getInputStream()))).start();
+            Thread receiver = new Thread(new MessageReceiver(new DataInputStream(socket.getInputStream())));
+            receiver.start();
             ChatClientLib.sendMessages(scanIn, new DataOutputStream(socket.getOutputStream()));
+            System.out.println("Closed receiving connection.");
         }
         catch (IOException e) {
             e.printStackTrace();

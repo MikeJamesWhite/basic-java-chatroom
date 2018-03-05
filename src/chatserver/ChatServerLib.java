@@ -18,9 +18,12 @@ public class ChatServerLib {
 
     public static void acceptConnections(ServerSocket ss) {
         Socket s;
-        while (true) {
+        while (ChatServer.running.get()) {
             try {
                 s = ss.accept();
+            }
+            catch (SocketTimeoutException e) {
+                continue;
             }
             catch (IOException e) {
                 System.err.println("Error accepting new socket connection. Exiting...");
@@ -43,17 +46,26 @@ public class ChatServerLib {
             System.err.println("Error receiving client alias. Cancelling listen attempt.");
             return;
         }
-        while (true) {
-
+        while (ChatServer.running.get()) {
             try {
+                if (client.input.available() < 1) {
+                    continue;
+                }
                 in = client.input.readUTF();
             }
             catch (IOException e) {
-                System.err.println("Error receiving client message. Returning.");
+                System.err.println("Client disconnected. Closing listen thread.");
                 return;
             }
             synchronized (clients) {
-                broadcastMessage(client.alias + "> " + in);
+                if (in.equals("exit()")) {
+                    System.out.println(client.alias + " disconnected from the server.");
+                    broadcastMessage(client.alias + " disconnected from the server.");
+                    return;
+                }
+                else {
+                    broadcastMessage(client.alias + "> " + in);
+                }
             }
             System.out.println(client.alias + "> " + in);
         }
@@ -65,6 +77,7 @@ public class ChatServerLib {
                 c.output.writeUTF(msg);
             }
             catch (IOException e) {
+                e.printStackTrace();
                 System.err.println("Error writing output to client.");
             }
         }

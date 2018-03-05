@@ -9,7 +9,6 @@
 
 package chatserver;
 
-
 public class ClientListener implements Runnable {
     ChatServerClient client;
 

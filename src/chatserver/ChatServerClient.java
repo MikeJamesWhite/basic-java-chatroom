@@ -17,13 +17,15 @@ public class ChatServerClient {
     Socket socket;
     public DataInputStream input;
     public DataOutputStream output;
+    public Thread listener;
 
     public ChatServerClient(Socket socket) {
         this.socket = socket;
         try {
             this.input = new DataInputStream(socket.getInputStream());
             this.output = new DataOutputStream(socket.getOutputStream());
-            new Thread(new ClientListener(this)).start();
+            listener = new Thread(new ClientListener(this));
+            listener.start();
         }
         catch (IOException e) {
             System.err.println("Error establishing new client. Exiting...");
