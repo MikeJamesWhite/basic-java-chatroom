@@ -55,12 +55,14 @@ public class ChatServerLib {
             }
             catch (IOException e) {
                 System.err.println("Client disconnected. Closing listen thread.");
+                clients.remove(client);
                 return;
             }
             synchronized (clients) {
                 if (in.equals("exit()")) {
                     System.out.println(client.alias + " disconnected from the server.");
                     broadcastMessage(client.alias + " disconnected from the server.");
+                    clients.remove(client);
                     return;
                 }
                 else {
