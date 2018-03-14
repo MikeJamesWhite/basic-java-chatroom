@@ -40,16 +40,7 @@ public class ChatClientLib {
         }
     }
 
-    public static void sendMessages(Scanner scanIn, DataOutputStream output) {
-        System.out.print("Enter your alias: ");
-        String alias = scanIn.nextLine();
-        try {
-            output.writeUTF(alias);
-        }
-        catch (IOException e) {
-            System.err.println("Error writing alias. Returning...");
-            return;
-        }
+    public static void sendMessages(Scanner scanIn, DataOutputStream output, String alias) {
         while (ChatClient.running.get()) {
             System.out.print(alias + "> ");
             String msg = scanIn.nextLine();

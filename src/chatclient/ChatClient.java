@@ -23,6 +23,8 @@ public class ChatClient {
     public static void main(String[] args) {
         boolean connected = false;
         Socket socket = null;
+
+        // connect to the server
         while (!connected) {
             System.out.print("Enter the host: ");
             String host = scanIn.nextLine();
@@ -42,12 +44,39 @@ public class ChatClient {
             }
         }
         System.out.println("Connected!");
+
         try {
-            Thread receiver = new Thread(new MessageReceiver(new DataInputStream(socket.getInputStream())));
+            DataInputStream inputStream = new DataInputStream(socket.getInputStream());
+            DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
+            boolean accepted = false;
+            String alias = "";
+            String serverResponse;
+
+            // send alias
+            while (!accepted) {
+                System.out.print("Enter your alias: ");
+                alias = scanIn.nextLine();
+                try {
+                    outputStream.writeUTF(alias);
+                    serverResponse = inputStream.readUTF();
+                    if (serverResponse.equals("success"))
+                        accepted = true;
+                    else
+                        System.out.println("Alias already in use... Pick again.");
+                }
+                catch (IOException e) {
+                    System.err.println("Error while confirming alias. Exiting...");
+                    return;
+                }
+            }
+
+            // start threads and full functionality
+            Thread receiver = new Thread(new MessageReceiver(inputStream));
             receiver.start();
-            ChatClientLib.sendMessages(scanIn, new DataOutputStream(socket.getOutputStream()));
+            ChatClientLib.sendMessages(scanIn, new DataOutputStream(outputStream), alias);
             System.out.println("Closed receiving connection.");
         }
+
         catch (IOException e) {
             e.printStackTrace();
             return;

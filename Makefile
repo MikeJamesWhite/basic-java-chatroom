@@ -8,7 +8,7 @@ SRC=./src
 OPTIONS = -cp $(BIN) -d $(BIN) -sourcepath $(SRC)
 RUN_OPTIONS= -cp $(BIN)
 
-.PHONY: clean all
+.PHONY: clean server client
 
 all: server client
 

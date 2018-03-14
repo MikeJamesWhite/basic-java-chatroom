@@ -40,7 +40,7 @@ public class ChatServer {
             String in = scanIn.nextLine();
             if (in.equals("exit()")) {
                 System.out.println("Closing client connections.");
-                ChatServerLib.broadcastMessage("Server Disconnected.");
+                ChatServerLib.broadcastMessage("<disconnect>");
                 System.out.println("Terminating program.");
                 running.set(false);
             }
