@@ -181,6 +181,7 @@ public class ChatScreen extends javax.swing.JFrame {
             ChatClientLib.sendMessage("<sendprivate>|" + privateMessageRecipient.getText() + "|" + textMessage.getText(), true, this);
         }
         textMessage.setText("");
+        textMessage.requestFocus();
     }//GEN-LAST:event_SendTextActionPerformed
 
     /**
