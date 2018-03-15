@@ -158,7 +158,7 @@ public class ChatServerLib {
                     }}).start();
                 if (clients.contains(c)) {
                     try {
-                        sender.output.writeUTF("<sendprivate>|you|" + message.split("\\|")[2]);
+                        sender.output.writeUTF("<sendprivate>|you|" + "[to " + recipient + "] " + message.split("\\|")[2]);
                     }
                     catch (IOException e) {
                         String msg = "<notification>|" + sender.alias + " disconnected from the server.";
