@@ -16,7 +16,7 @@ server:
 	$(JAVAC) $(OPTIONS) $(SRC)/chatserver/*.java
 
 client:
-	$(JAVAC) $(OPTIONS) $(SRC)/chatclient/*.java
+	$(JAVAC) $(OPTIONS) $(SRC)/javachatclientgui/*.java $(SRC)/javachatclientlibrary/*.java
 
 clean:
 	rm -r -f $(BIN)/*
@@ -25,4 +25,4 @@ runServer: all
 	java $(RUN_OPTIONS) chatserver.ChatServer
 
 runClient: all
-	java $(RUN_OPTIONS) chatclient.ChatClient
+	java $(RUN_OPTIONS) javachatclientgui.JavaChatClientGUI
