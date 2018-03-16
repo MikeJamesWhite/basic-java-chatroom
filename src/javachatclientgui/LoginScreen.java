@@ -20,7 +20,7 @@ public class LoginScreen extends javax.swing.JFrame {
     public LoginScreen() {
         initComponents();
         connectionFailedLabel.setVisible(false);
-        getRootPane().setDefaultButton(connectBtn);
+        getRootPane().setDefaultButton(connectBtn);        
     }
 
     /**
@@ -41,6 +41,7 @@ public class LoginScreen extends javax.swing.JFrame {
         connectionFailedLabel = new javax.swing.JLabel();
         filePortField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        defaultPortsBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,6 +58,8 @@ public class LoginScreen extends javax.swing.JFrame {
 
         jLabel3.setText("Chat Port:");
 
+        portField.setEditable(false);
+        portField.setText("50047");
         portField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 portFieldActionPerformed(evt);
@@ -74,6 +77,8 @@ public class LoginScreen extends javax.swing.JFrame {
         connectionFailedLabel.setForeground(new java.awt.Color(255, 15, 0));
         connectionFailedLabel.setText("Connection failed... Try again.");
 
+        filePortField.setEditable(false);
+        filePortField.setText("50048");
         filePortField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 filePortFieldActionPerformed(evt);
@@ -81,6 +86,14 @@ public class LoginScreen extends javax.swing.JFrame {
         });
 
         jLabel4.setText("File Port:");
+
+        defaultPortsBox.setSelected(true);
+        defaultPortsBox.setText("Use Default Ports");
+        defaultPortsBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                defaultPortsBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,21 +106,25 @@ public class LoginScreen extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addGap(44, 44, 44)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(hostField)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(portField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(portField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(defaultPortsBox))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(filePortField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(connectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(connectionFailedLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(filePortField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(connectBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(connectionFailedLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -123,12 +140,15 @@ public class LoginScreen extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(portField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(connectBtn)
                     .addComponent(filePortField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(defaultPortsBox)
+                    .addComponent(connectBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(connectionFailedLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -144,7 +164,8 @@ public class LoginScreen extends javax.swing.JFrame {
 
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectBtnActionPerformed
         connectionFailedLabel.setVisible(false);
-        int port = 0;
+        int chatPort = 0;
+        int filePort = 0;
         String host = hostField.getText();
         
         if (host.equals("")) {
@@ -153,21 +174,26 @@ public class LoginScreen extends javax.swing.JFrame {
             return;
         }
         try {
-            port = Integer.parseInt(portField.getText());
+            chatPort = Integer.parseInt(portField.getText());
+            filePort = Integer.parseInt(filePortField.getText());
         }
         catch (Exception e) {
             connectionFailedLabel.setText("Please enter a valid port.");
             connectionFailedLabel.setVisible(true);
             return;
         }
-        System.out.println("Attempting connection to " + host + ":" + String.valueOf(port));
+        System.out.println("Attempting connection to " + host + ":" + String.valueOf(chatPort));
         try { 
             JavaChatClientGUI.socket = new Socket();
-            JavaChatClientGUI.socket.connect(new InetSocketAddress(host,port), 5000);
+            JavaChatClientGUI.fileSocket = new Socket();
+            JavaChatClientGUI.socket.connect(new InetSocketAddress(host,chatPort), 5000);
+            JavaChatClientGUI.fileSocket.connect(new InetSocketAddress(host, filePort), 5000);
+            //JavaChatClientGUI.fileSocket.setSoTimeout();
             JavaChatClientGUI.socket.setSoTimeout(1000);
             JavaChatClientGUI.inputStream = new DataInputStream(JavaChatClientGUI.socket.getInputStream());
             JavaChatClientGUI.outputStream = new DataOutputStream(JavaChatClientGUI.socket.getOutputStream());
-
+            JavaChatClientGUI.fileInputStream = new DataInputStream(JavaChatClientGUI.fileSocket.getInputStream());
+            JavaChatClientGUI.fileOutputStream = new DataOutputStream(JavaChatClientGUI.fileSocket.getOutputStream());
         }
         catch (IOException e) {
             connectionFailedLabel.setText("Connection failed... Try again.");
@@ -184,6 +210,21 @@ public class LoginScreen extends javax.swing.JFrame {
     private void filePortFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filePortFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_filePortFieldActionPerformed
+
+    private void defaultPortsBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultPortsBoxActionPerformed
+        if (!defaultPortsBox.isSelected()) {
+            portField.setEditable(true);
+            filePortField.setEditable(true);
+            portField.setText("");
+            filePortField.setText("");
+        }
+        else {
+            portField.setEditable(false);
+            filePortField.setEditable(false);
+            portField.setText("50047");
+            filePortField.setText("50048");
+        }
+    }//GEN-LAST:event_defaultPortsBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,6 +264,7 @@ public class LoginScreen extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton connectBtn;
     private javax.swing.JLabel connectionFailedLabel;
+    private javax.swing.JCheckBox defaultPortsBox;
     private javax.swing.JTextField filePortField;
     private javax.swing.JTextField hostField;
     private javax.swing.JLabel jLabel1;

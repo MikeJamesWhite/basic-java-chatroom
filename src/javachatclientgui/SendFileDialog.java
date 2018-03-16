@@ -4,18 +4,22 @@
  */
 package javachatclientgui;
 
+import javachatclientlibrary.ChatClientLib;
+
 /**
  *
  * @author mike
  */
 public class SendFileDialog extends javax.swing.JDialog {
-
+    ChatScreen chatScreen;
+    
     /**
      * Creates new form SendFileDialog
      */
     public SendFileDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        chatScreen = (ChatScreen) parent;
     }
 
     /**
@@ -49,6 +53,11 @@ public class SendFileDialog extends javax.swing.JDialog {
         });
 
         sendBtn.setText("Send");
+        sendBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendBtnActionPerformed(evt);
+            }
+        });
 
         cancelBtn.setText("Cancel");
         cancelBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -133,6 +142,17 @@ public class SendFileDialog extends javax.swing.JDialog {
     private void privateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_privateBtnActionPerformed
         this.privateTransferAlias.setEditable(true);
     }//GEN-LAST:event_privateBtnActionPerformed
+
+    private void sendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendBtnActionPerformed
+        String filePath = this.filepath.getText();
+        if (this.sendAllBtn.isSelected()) {
+            ChatClientLib.sendFileAll(filePath, chatScreen);
+        }
+        else {
+            ChatClientLib.sendFilePrivate(filePath, privateTransferAlias.getText(), chatScreen);
+        }
+        this.dispose();
+    }//GEN-LAST:event_sendBtnActionPerformed
 
     /**
      * @param args the command line arguments

@@ -23,7 +23,8 @@ public class ChatScreen extends javax.swing.JFrame {
      */
     public ChatScreen() {
         initComponents();
-        new Thread(new MessageReceiver(JavaChatClientGUI.inputStream, this)).start();
+        new Thread(new MessageReceiver(JavaChatClientGUI.inputStream, this, false)).start();
+        new Thread(new MessageReceiver(JavaChatClientGUI.fileInputStream, this, true)).start();
         getRootPane().setDefaultButton(SendText);
     }
 

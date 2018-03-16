@@ -4,6 +4,10 @@
  */
 package javachatclientgui;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 /**
  *
  * @author mike
@@ -27,6 +31,7 @@ public class ReceiveFileDialog extends javax.swing.JDialog {
         this.senderAlias.setText(senderAlias);
         this.filename.setText(filename);
         this.filesize.setText(Integer.toString(filesize));
+        this.downloadPath.setText("./downloads/" + filename);
     }
 
     /**
@@ -153,11 +158,33 @@ public class ReceiveFileDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_downloadPathActionPerformed
 
     private void AcceptBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptBtnActionPerformed
-        // TODO add your handling code here:
+        String path = downloadPath.getText();
+        if (!path.equals("")) {
+            try {
+                System.out.println("Sending file accept message");
+                JavaChatClientGUI.fileOutputStream.writeUTF("<accept>");
+                System.out.println("Receiving file");
+                byte[] file = new byte[Integer.parseInt(filesize.getText())];
+                JavaChatClientGUI.fileInputStream.readFully(file, 0, file.length);
+                System.out.println("Writing file to output");
+                FileOutputStream f = new FileOutputStream(new File(path));
+                f.write(file);
+            }
+            catch (IOException e) {
+                return;
+            }
+        }
+        this.dispose();
     }//GEN-LAST:event_AcceptBtnActionPerformed
 
     private void DeclineBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeclineBtnActionPerformed
-        // TODO add your handling code here:
+        try {
+            JavaChatClientGUI.fileOutputStream.writeUTF("<decline>");
+        }
+        catch (IOException e) {
+            return;
+        }
+        this.dispose();
     }//GEN-LAST:event_DeclineBtnActionPerformed
 
     /**

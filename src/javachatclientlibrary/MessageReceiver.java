@@ -15,13 +15,18 @@ import javachatclientgui.ChatScreen;
 public class MessageReceiver implements Runnable {
     DataInputStream input;
     ChatScreen chatScreen;
+    boolean fileTransfer;
 
-    public MessageReceiver(DataInputStream input, ChatScreen chatScreen) {
+    public MessageReceiver(DataInputStream input, ChatScreen chatScreen, boolean fileTransfer) {
         this.input = input;
         this.chatScreen = chatScreen;
+        this.fileTransfer = fileTransfer;
     }
 
     public void run() {
-        ChatClientLib.listenForMessages(input, chatScreen);
+        if (!fileTransfer)
+            ChatClientLib.listenForMessages(input, chatScreen);
+        else
+            ChatClientLib.listenForFiles(input, chatScreen);
     }
 }

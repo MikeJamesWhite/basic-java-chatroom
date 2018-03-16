@@ -18,6 +18,11 @@ public class JavaChatClientGUI {
     public static Socket socket;
     public static DataInputStream inputStream;
     public static DataOutputStream outputStream;
+    
+    public static Socket fileSocket;
+    public static DataInputStream fileInputStream;
+    public static DataOutputStream fileOutputStream;
+    
     public static AtomicBoolean running = new AtomicBoolean(false);
 
     /**
@@ -31,12 +36,15 @@ public class JavaChatClientGUI {
     public static void reset() {
         running.set(false);
         try {
-            outputStream.writeUTF("exit()");
+            outputStream.writeUTF("<disconnect>");
         }
         catch (IOException e) { }
         socket = null;
         inputStream = null;
         outputStream = null;
+        fileSocket = null;
+        fileInputStream = null;
+        fileOutputStream = null;
     }
     
 }

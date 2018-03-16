@@ -113,13 +113,20 @@ public class AliasSelect extends javax.swing.JFrame {
         try {
             JavaChatClientGUI.outputStream.writeUTF(alias);
             String serverResponse = JavaChatClientGUI.inputStream.readUTF();
+            if (serverResponse.equals("<disconnect>")) {
+                System.out.println("Server disconnected.");
+                JavaChatClientGUI.running.set(false);
+                ServerDisconnectDialog sdd = new ServerDisconnectDialog(this, true);
+                sdd.setVisible(true);
+                return;
+            }
             
             if (serverResponse.equals("success")) {
                 Thread onShutdown = new Thread
                 ( new Runnable () {
                     public void run() {
                         try {
-                            JavaChatClientGUI.outputStream.writeUTF("exit()");
+                            JavaChatClientGUI.outputStream.writeUTF("<disconnect>");
                         }
                         catch (IOException e) {}
                     }
