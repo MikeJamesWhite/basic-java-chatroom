@@ -152,18 +152,29 @@ public class ChatServerLib {
             // parse message
             System.out.println(sender.alias +": " + msg);
             String[] splitMsg = msg.split("\\|");
+            byte[] file;
 
             if (splitMsg[0].equals("<filetoall>") || splitMsg[0].equals("<fileprivate>")) {
                 int fileLength = Integer.parseInt(splitMsg[1]);
-                byte[] file = new byte [fileLength];
 
                 try {
-                    int success = sender.fileInput.read(file, 0, fileLength);
-                    if (success == -1) {
-                        // transfer unsuccessful
-                        System.err.println("File transfer unsuccessful");
-                        return;
+                    BufferedInputStream input = new BufferedInputStream(sender.fileInput);
+                    file = new byte[fileLength];
+                    byte[] buffer = new byte [4192];
+                    int cumulative = 0;
+                    int count;
+                    while ((count = input.read(buffer)) > 0) {
+                        System.out.println("Receiving chunk of bytes.");
+                        for (int i = 0; i < count; i++) {
+                            file[cumulative + i] = buffer[i];
+                        }
+                        cumulative += count;
+                        System.out.println(String.valueOf(cumulative));
+                        System.out.println(String.valueOf(fileLength));
+                        if (cumulative == fileLength)
+                            break;
                     }
+                    System.out.println("Finished receiving bytes.");
                 }
                 catch (IOException e) {
                     System.err.println("File read unsuccessful.");
@@ -232,7 +243,14 @@ public class ChatServerLib {
             // if affirmative, write file to client.
             if (affirmative) {
                 System.out.println("Writing file to recipient " + recipient.alias);
-                recipient.fileOutput.write(file, 0, file.length);
+
+                BufferedInputStream fileIn = new BufferedInputStream(new ByteArrayInputStream(file));
+                int count;
+                byte[] buffer = new byte[4096];
+                while ((count = fileIn.read(buffer)) > 0) {
+                    recipient.fileOutput.write(buffer, 0, count);
+                }
+
                 System.out.println("Finished writing file.");
             }
         }

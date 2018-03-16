@@ -1,7 +1,3 @@
-/*
- * helllo
- * Each line should be prefixed with  * 
- */
 package javachatclientgui;
 
 import java.io.File;
@@ -9,8 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- *
- * @author mike
+ * 
+ * 
+ * @author Michael White (WHTMIC023)
  */
 public class ReceiveFileDialog extends javax.swing.JDialog {
 
@@ -23,7 +20,7 @@ public class ReceiveFileDialog extends javax.swing.JDialog {
     }
     
     /**
-     * Creates new form ReceiveFileDialog
+     * Creates new form ReceiveFileDialog with the specified attribute values
      */
     public ReceiveFileDialog(java.awt.Frame parent, boolean modal, String senderAlias, String filename, int filesize) {
         super(parent, modal);
@@ -161,16 +158,27 @@ public class ReceiveFileDialog extends javax.swing.JDialog {
         String path = downloadPath.getText();
         if (!path.equals("")) {
             try {
+                FileOutputStream f = new FileOutputStream(new File(path));
                 System.out.println("Sending file accept message");
                 JavaChatClientGUI.fileOutputStream.writeUTF("<accept>");
-                System.out.println("Receiving file");
-                byte[] file = new byte[Integer.parseInt(filesize.getText())];
-                JavaChatClientGUI.fileInputStream.readFully(file, 0, file.length);
-                System.out.println("Writing file to output");
-                FileOutputStream f = new FileOutputStream(new File(path));
-                f.write(file);
+                System.out.println("Receiving file and writing to file");
+
+
+                byte[] buffer = new byte[4096];
+                int count;
+                int cumulative = 0;
+                while ((count = JavaChatClientGUI.fileInputStream.read(buffer)) > 0) {
+                    f.write(buffer, 0, count);
+                    cumulative += count;
+                    if (cumulative == Integer.parseInt(filesize.getText()))
+                        break;
+                }
+                System.out.println("File write finished.");
+                f.close();
+                System.out.println("File closed");
             }
             catch (IOException e) {
+                System.out.println("Invalid filepath");
                 return;
             }
         }

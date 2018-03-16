@@ -13,9 +13,11 @@ RUN_OPTIONS= -cp $(BIN)
 all: server client
 
 server:
+	mkdir -p bin
 	$(JAVAC) $(OPTIONS) $(SRC)/chatserver/*.java
 
 client:
+	mkdir -p bin
 	$(JAVAC) $(OPTIONS) $(SRC)/javachatclientgui/*.java $(SRC)/javachatclientlibrary/*.java
 
 clean:
@@ -25,4 +27,5 @@ runServer: all
 	java $(RUN_OPTIONS) chatserver.ChatServer
 
 runClient: all
+	mkdir -p downloads
 	java $(RUN_OPTIONS) javachatclientgui.JavaChatClientGUI

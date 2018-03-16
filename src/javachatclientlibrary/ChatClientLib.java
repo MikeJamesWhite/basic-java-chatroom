@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -116,63 +117,65 @@ public class ChatClientLib {
     }
     
     public static void sendFileAll(String filepath, ChatScreen chatScreen) {
-        byte[] file;
         String filename;
+        File f = new File(filepath);
+        long size = f.length();
         
         try {
-            file = Files.readAllBytes(Paths.get(filepath));
+            FileInputStream fileIn = new FileInputStream(f);
             if (filepath.lastIndexOf("/") != -1)
                 filename = filepath.substring(filepath.lastIndexOf("/") + 1);
             else
                 filename = filepath;
+                
+            String headerMsg = "<filetoall>|" + String.valueOf(size) + "|" + filename;
+            System.out.println("Sending header file to server");
+            JavaChatClientGUI.fileOutputStream.writeUTF(headerMsg);
+
+            int count;
+            byte[] buffer = new byte[4096];
+            while ((count = fileIn.read(buffer)) > 0) {
+                System.out.println("Sending a chunk of bytes.");
+                JavaChatClientGUI.fileOutputStream.write(buffer, 0, count);
+            }
+            System.out.println("Finished sending bytes.");
+            fileIn.close();
+            
         }
         catch (IOException e) {
             System.out.println("error reading file");
-            return;
-        }
-        String headerMsg = "<filetoall>|" + String.valueOf(file.length) + "|" + filename;
-        
-        try {
-            JavaChatClientGUI.fileOutputStream.writeUTF(headerMsg);
-            JavaChatClientGUI.fileOutputStream.write(file);
-        }
-        catch (IOException e) {
-            JavaChatClientGUI.running.set(false);
-            ServerDisconnectDialog sdd = new ServerDisconnectDialog(chatScreen, true);
-            sdd.setVisible(true);
             return;
         }
     }
     
     public static void sendFilePrivate(String filepath, String recipient, ChatScreen chatScreen) {
-        byte[] file;
         String filename;
+        File f = new File(filepath);
+        long size = f.length();
         
         try {
-            file = Files.readAllBytes(Paths.get(filepath));
+            FileInputStream fileIn = new FileInputStream(f);
             if (filepath.lastIndexOf("/") != -1)
                 filename = filepath.substring(filepath.lastIndexOf("/") + 1);
             else
                 filename = filepath;
+            String headerMsg = "<fileprivate>|" + String.valueOf(size) + "|" + filename + "|" + recipient;
+            System.out.println("Sending header file to server");
+            JavaChatClientGUI.fileOutputStream.writeUTF(headerMsg);
+
+            int count;
+            byte[] buffer = new byte[4096];
+            while ((count = fileIn.read(buffer)) > 0) {
+                System.out.println("Sending a chunk of bytes.");
+                JavaChatClientGUI.fileOutputStream.write(buffer, 0, count);
+            }
+            System.out.println("Finished sending bytes.");
+            fileIn.close();
+            
         }
         catch (IOException e) {
             System.out.println("error reading file");
             return;
         }
-        String headerMsg = "<fileprivate>|" + String.valueOf(file.length) + "|" + filename + "|" + recipient;
-        
-        try {
-            System.out.println("Sending header file to server");
-            JavaChatClientGUI.fileOutputStream.writeUTF(headerMsg);
-            System.out.println("Sending binary file to server");
-            JavaChatClientGUI.fileOutputStream.write(file);
-        }
-        catch (IOException e) {
-            JavaChatClientGUI.running.set(false);
-            ServerDisconnectDialog sdd = new ServerDisconnectDialog(chatScreen, true);
-            sdd.setVisible(true);
-            return;            
-        }
-        
     }
 }
