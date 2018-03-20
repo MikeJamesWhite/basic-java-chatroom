@@ -1,17 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * LoginScreen.java
+ * 
+ * JFrame component which allows a user to specify a host and port numbers to connect to. If unsuccessful, the login screen will allow the user to try again.
+ * 
+ * @author Michael White (WHTMIC023)
+ * @version 04/03/2018
  */
+
 package javachatclientgui;
 
 import java.net.*;
 import java.io.*;
 
-/**
- *
- * @author mike
- */
 public class LoginScreen extends javax.swing.JFrame {
 
     /**

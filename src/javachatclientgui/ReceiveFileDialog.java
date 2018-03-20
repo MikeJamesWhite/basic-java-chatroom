@@ -1,14 +1,18 @@
+/**
+ * ReceiveFileDialog.java
+ * 
+ * JDialog component which allows a user to accept or decline an incoming file transfer.
+ * 
+ * @author Michael White (WHTMIC023)
+ * @version 04/03/2018
+ */
+
 package javachatclientgui;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/**
- * 
- * 
- * @author Michael White (WHTMIC023)
- */
 public class ReceiveFileDialog extends javax.swing.JDialog {
 
     /**

@@ -1,15 +1,16 @@
-/*
- * helllo
- * Each line should be prefixed with  * 
+/**
+ * SendFileDialog.java
+ * 
+ * JDialog which allows a user to specify details of an outgoing file transfer and either confirm or cancel the transfer.
+ * 
+ * @author Michael White (WHTMIC023)
+ * @version 04/03/2018
  */
+
 package javachatclientgui;
 
 import javachatclientlibrary.ChatClientLib;
 
-/**
- *
- * @author mike
- */
 public class SendFileDialog extends javax.swing.JDialog {
     ChatScreen chatScreen;
     

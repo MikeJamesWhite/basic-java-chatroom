@@ -1,18 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * JavaChatClientGUI.java
+ * 
+ * Driver program which stores some static information, such as the sockets used for communication with server, and is responsible for launcing the GUI.
+ * 
+ * @author Michael White (WHTMIC023)
+ * @version 04/03/2018
  */
+
 package javachatclientgui;
 
 import java.net.Socket;
 import java.io.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- *
- * @author mike
- */
 public class JavaChatClientGUI {
     
     public static Socket socket;

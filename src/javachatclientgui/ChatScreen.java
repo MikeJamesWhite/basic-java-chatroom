@@ -1,7 +1,12 @@
-/*
- * helllo
- * Each line should be prefixed with  * 
+/**
+ * ChatScreen.java
+ * 
+ * JFrame component which allows a user to send and receive text messages, as well as access other functionality, such as file transfers, through buttons.
+ * 
+ * @author Michael White (WHTMIC023)
+ * @version 04/03/2018
  */
+
 package javachatclientgui;
 
 import java.awt.Color;
@@ -12,10 +17,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
-/**
- *
- * @author mike
- */
 public class ChatScreen extends javax.swing.JFrame {
 
     /**

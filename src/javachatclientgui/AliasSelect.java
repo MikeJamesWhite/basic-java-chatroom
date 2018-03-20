@@ -1,16 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * AliasSelect.java
+ * 
+ * JFrame which allows a user to select an alias and checks with the sever that this alias is not already in use.
+ * 
+ * @author Michael White (WHTMIC023)
+ * @version 04/03/2018
  */
+
 package javachatclientgui;
 
 import java.io.IOException;
 
-/**
- *
- * @author mike
- */
 public class AliasSelect extends javax.swing.JFrame {
 
     /**

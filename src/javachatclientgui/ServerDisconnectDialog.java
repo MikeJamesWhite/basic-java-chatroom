@@ -1,15 +1,16 @@
-/*
- * helllo
- * Each line should be prefixed with  * 
+/**
+ * ServerDisconnectDialog.java
+ * 
+ * JDialog which informs the user that the server has disconnected and allows the user to either exit the application or connect to another server.
+ * 
+ * @author Michael White (WHTMIC023)
+ * @version 04/03/2018
  */
+
 package javachatclientgui;
 
 import java.awt.Frame;
 
-/**
- *
- * @author mike
- */
 public class ServerDisconnectDialog extends javax.swing.JDialog {
 
     Frame parent;
